@@ -1,4 +1,3 @@
-const Task = require('../models/taskModel.js');
 const tasksRepository = require('../repository/tasksRepository.js');
 const AppError = require("../utils/appError.js");
 const statusText = require('../utils/statusText.js');

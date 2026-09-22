@@ -1,10 +1,10 @@
-const User = require("../models/userModel.js");
 const AppError = require("../utils/appError.js");
 const statusText = require('../utils/statusText.js');
+const usersRepository = require('../repository/usersRepository.js');
 
 const getAllUsers = async (limit, page) => {
     const skip = (page - 1) * limit;
-    const users = await User.find({}, { "__v": false }).limit(limit).skip(skip);
+    const users = await usersRepository.getAllUsers(limit, skip);
     if (!users) {
         throw new AppError('no uesrs found', 404, statusText.FAIL);
     }
@@ -12,7 +12,7 @@ const getAllUsers = async (limit, page) => {
 }
 
 const getUserById = async (userId) => {
-    const user = await User.findById(userId, { "__v": false, "password": false });
+    const user = await usersRepository.getUserById(userId);
     if (!user) {
         throw new AppError("no users found", 404, statusText.FAIL);
     }
@@ -20,7 +20,7 @@ const getUserById = async (userId) => {
 }
 
 const deleteUserById = async (userId) => {
-    const userToDelete = await User.findByIdAndDelete(userId);
+    const userToDelete = await usersRepository.deleteUserById(userId);
     if (!userToDelete) {
         throw new AppError("no users found", 404, statusText.FAIL);
     }
@@ -30,11 +30,11 @@ const deleteUserById = async (userId) => {
 const updateUserById = async (userId, data) => {
     const invalidUpdates = ['password', '_id'];
     for (let key in invalidUpdates) {
-        if (updateSchema[key]) {
-            delete updateSchema[key];
+        if (data[key]) {
+            delete data[key];
         }
     }
-    const updatedUser = await User.findByIdAndUpdate(userId, updateSchema, { returnDocument: 'after', runValidators: true }).select("-password");
+    const updatedUser = await usersRepository.updateUserById(userId, data);
     if (!updatedUser) {
         throw new AppError("no users found", 404, statusText.FAIL);
     }

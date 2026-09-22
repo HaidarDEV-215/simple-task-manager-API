@@ -4,19 +4,19 @@ const taskServices = require('../services/tasksService.js');
 const createTask = asyncWrapper(async (req, res, next) => {
     const { title, desc } = req.body;
     const newTask = await taskServices.create(title, desc);
-    res.status(201).json({ msg: "task created successfully", data: newTask })
+    res.status(201).json({ msg: "task created successfully", data: newTask });
 })
 
 const getAllTasks = asyncWrapper(async (req, res, next) => {
-    const limit = req.query.limit || 10;
-    const page = req.query.page || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const page = parseInt(req.query.page, 10) || 1;
     const tasks = await taskServices.getAllTasks(limit, page);
     res.status(200).json({ items: tasks.length, data: tasks });
 })
 
 const getOneTask = asyncWrapper(async (req, res, next) => {
     const taskId = req.params.taskId;
-    const task = taskServices.getTaskById(taskId);
+    const task = await taskServices.getTaskById(taskId); // إضافة await هنا
     res.status(200).json({ data: task });
 })
 

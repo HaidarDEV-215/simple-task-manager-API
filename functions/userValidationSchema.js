@@ -35,7 +35,6 @@ const updateUserValidationSchema =()=>{
             .isEmail()
             .withMessage("email address is not valid")
         ,body("password")
-            .withMessage("password cannot be empty")
             .isLength({min:8,max:16})
             .withMessage("password length must be between 8 and 16 character")
     ])

@@ -2,7 +2,7 @@ const AppError = require('./appError.js');
 const statusText = require('./statusText.js');
 const nodeMailer = require('nodemailer');
 
-module.exports = (userEmail,subject,content)=>{
+module.exports = async (userEmail,subject,content)=>{
     const transporter = nodeMailer.createTransport({
         auth:{
             user: process.env.APP_EMAIL,
@@ -20,12 +20,9 @@ module.exports = (userEmail,subject,content)=>{
         html : content
     }
 
-    transporter.sendMail(mailOptions,(error,success)=>{
+    return transporter.sendMail(mailOptions,(error,success)=>{
         if(error){
-            return new AppError(error.message,500,statusText.ERROR);
-        }
-        else{
-            return true;
+            throw new AppError(error.message,500,statusText.ERROR);
         }
     })
 }

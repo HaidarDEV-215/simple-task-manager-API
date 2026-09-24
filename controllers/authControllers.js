@@ -27,8 +27,9 @@ const confirmOTP = asyncWrapper(async (req, res, next) => {
 });
 
 const resetPassword = asyncWrapper(async (req, res, next) => {
-    const {newPassword, email} = req.body;
-    await authServices.resetPasswordService(newPassword, email);
+    const {newPassword} = req.body;
+    const currentUser = req.currentUser;
+    await authServices.resetPasswordService(newPassword, currentUser);
     res.status(200).json({ status: statusText.SUCCESS, message: "Password reset successfully" });
 });
 

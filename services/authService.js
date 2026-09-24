@@ -67,12 +67,15 @@ const confirmOTPservice = async (email, code) => {
     return resetPasswordToken;
 }
 
-const resetPasswordService = async (newPassword, email) => {
+const resetPasswordService = async (newPassword, currentUser) => {
+    if(currentUser.purpose!=="reset-password"){
+        throw new AppError("invalid reset token", 403, statusText.FAIL);
+    }
     if (!newPassword) {
         throw new AppError("Password is required!", 400, statusText.FAIL);
     }
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    const user = await usersRepository.updateUserPassword(email, hashedPassword);
+    const user = await usersRepository.updateUserPassword(currentUser.email, hashedPassword);
     return user;
 }
 

@@ -2,9 +2,9 @@ const asyncWrapper = require('../middlewares/asyncWrapper.js');
 const statusText = require('../utils/statusText.js');
 const authServices = require('../services/authService.js');
 
-const regester = asyncWrapper(async (req, res, next) => {
+const register = asyncWrapper(async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
-    const token = await authServices.regesterService(firstName,lastName,email,password);
+    const token = await authServices.registerService(firstName,lastName,email,password);
     res.status(201).json({ status: statusText.SUCCESS, msg: "User registered successfully", data: token });
 });
 
@@ -33,4 +33,4 @@ const resetPassword = asyncWrapper(async (req, res, next) => {
     res.status(200).json({ status: statusText.SUCCESS, message: "Password reset successfully" });
 });
 
-module.exports = { regester, login, forgetPassword, confirmOTP, resetPassword };
+module.exports = { register, login, forgetPassword, confirmOTP, resetPassword };

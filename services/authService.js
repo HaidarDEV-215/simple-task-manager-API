@@ -8,7 +8,7 @@ const verificationEmail = require('../utils/verificationEmailTemplate.js');
 const otpRepository = require('../repository/otpRepository.js');
 const usersRepository = require('../repository/usersRepository.js');
 
-const regesterService = async (firstName, lastName, email, password) => {
+const registerService = async (firstName, lastName, email, password) => {
     const existUser = await usersRepository.getUserByEmail(email);
     if (existUser) {
         throw new AppError(`User with email ${email} already exists`, 400, statusText.FAIL);
@@ -77,7 +77,7 @@ const resetPasswordService = async (newPassword, currentUser) => {
 }
 
 module.exports = {
-    regesterService,
+    registerService,
     loginService,
     forgetPasswordService,
     confirmOTPservice,

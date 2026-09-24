@@ -30,9 +30,9 @@ const deleteUserById = async (userId) => {
 const updateUserById = async (userId, data) => {
     const validUpdates = ['firstName', 'lastName'];
     const saveData = {};
-    for (const filed in validUpdates){
+    for (const filed of validUpdates){
         if(data[filed]==!undefined){
-            saveData.filed = data[filed]
+            saveData[filed] = data[filed]
         }
     }
     const updatedUser = await usersRepository.updateUserById(userId, saveData);

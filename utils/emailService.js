@@ -20,9 +20,5 @@ module.exports = async (userEmail,subject,content)=>{
         html : content
     }
 
-    return transporter.sendMail(mailOptions,(error,success)=>{
-        if(error){
-            throw new AppError(error.message,500,statusText.ERROR);
-        }
-    })
+    return transporter.sendMail(mailOptions)
 }

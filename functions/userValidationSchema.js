@@ -1,43 +1,52 @@
-const {body} = require('express-validator');
+const { body } = require('express-validator');
 
-const UserValidationSchema = ()=>{
+const UserValidationSchema = () => {
     return ([
         body("firstName")
-            .isLength({min:3,max:20})
+            .isLength({ min: 3, max: 20 })
             .notEmpty()
             .withMessage("first name length must be bitween 3 and 20 character and cannot be empty")
-        ,body("lattName")
-            .isLength({min:3,max:20})
+        , body("lattName")
+            .isLength({ min: 3, max: 20 })
             .notEmpty()
             .withMessage("last name length must be bitween 3 and 20 character and cannot be empty")
-        ,body("email")
+        , body("email")
             .notEmpty()
             .withMessage("email is required")
             .isEmail()
             .withMessage("email address is not valid")
-        ,body("password")
+        , body("password")
             .notEmpty()
             .withMessage("password cannot be empty")
-            .isLength({min:8,max:16})
+            .isLength({ min: 8, max: 16 })
             .withMessage("password length must be between 8 and 16 character")
     ])
 }
 
-const updateUserValidationSchema =()=>{
+const updateUserValidationSchema = () => {
     return ([
         body("firstName")
-            .isLength({min:3,max:20})
+            .isLength({ min: 3, max: 20 })
             .withMessage("first name length must be bitween 3 and 20 character and cannot be empty")
-        ,body("lattName")
-            .isLength({min:3,max:20})
+        , body("lattName")
+            .isLength({ min: 3, max: 20 })
             .withMessage("last name length must be bitween 3 and 20 character and cannot be empty")
-        ,body("email")
+        , body("email")
             .isEmail()
             .withMessage("email address is not valid")
-        ,body("password")
-            .isLength({min:8,max:16})
+        , body("password")
+            .isLength({ min: 8, max: 16 })
             .withMessage("password length must be between 8 and 16 character")
     ])
 }
 
-module.exports = {UserValidationSchema,updateUserValidationSchema};
+const resetPasswordValidationSchema = () => {
+    return ([
+        body("newPassword")
+            .notEmpty().withMessage("newPassword is required")
+            .isLength({ min: 8, max: 16 })
+            .withMessage("password length must be between 8 and 16 characters")
+    ]);
+}
+module.exports = { UserValidationSchema, updateUserValidationSchema, resetPasswordValidationSchema };
+

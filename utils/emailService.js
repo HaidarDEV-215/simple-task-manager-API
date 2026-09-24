@@ -1,5 +1,3 @@
-const AppError = require('./appError.js');
-const statusText = require('./statusText.js');
 const nodeMailer = require('nodemailer');
 
 module.exports = async (userEmail,subject,content)=>{

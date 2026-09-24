@@ -6,7 +6,7 @@ const UserValidationSchema = () => {
             .isLength({ min: 3, max: 20 })
             .notEmpty()
             .withMessage("first name length must be bitween 3 and 20 character and cannot be empty")
-        , body("lattName")
+        , body("lastName")
             .isLength({ min: 3, max: 20 })
             .notEmpty()
             .withMessage("last name length must be bitween 3 and 20 character and cannot be empty")
@@ -26,17 +26,19 @@ const UserValidationSchema = () => {
 const updateUserValidationSchema = () => {
     return ([
         body("firstName")
+            .optional()
             .isLength({ min: 3, max: 20 })
             .withMessage("first name length must be bitween 3 and 20 character and cannot be empty")
-        , body("lattName")
+        , body("lastName")
+            .optional()
+
             .isLength({ min: 3, max: 20 })
             .withMessage("last name length must be bitween 3 and 20 character and cannot be empty")
         , body("email")
+            .optional()
+
             .isEmail()
             .withMessage("email address is not valid")
-        , body("password")
-            .isLength({ min: 8, max: 16 })
-            .withMessage("password length must be between 8 and 16 character")
     ])
 }
 

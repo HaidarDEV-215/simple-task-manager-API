@@ -2,27 +2,27 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authControllers.js');
 const {verifyResetPassWordToken} = require('../middlewares/validateToken.js');
-const {authRequestsLimitter} = require('../middlewares/rate-limit.js');
+const RequestsLimitter = require('../middlewares/rate-limit.js');
 const {UserValidationSchema,resetPasswordValidationSchema} = require('../functions/userValidationSchema.js');
 const userValidationHandler = require('../middlewares/userValidationHandler.js');
 
 router.route('/register')
                 .post(
-                    authRequestsLimitter,
+                    RequestsLimitter.registerLimiter,
                     UserValidationSchema(),
                     userValidationHandler,
                     authController.register
                 );
 
-router.route('/login').post(authRequestsLimitter,authController.login);
+router.route('/login').post(RequestsLimitter.loginLimiter,authController.login);
 
-router.route('/forgetPassword').post(authRequestsLimitter,authController.forgetPassword);
+router.route('/forgetPassword').post(RequestsLimitter.forgetPasswordLimiter,authController.forgetPassword);
 
-router.route('/confirm').post(authRequestsLimitter,authController.confirmOTP);
+router.route('/confirm').post(RequestsLimitter.confirmOTPLimiter,authController.confirmOTP);
 
 router.route('/resetPassword')
                 .post(
-                    authRequestsLimitter,
+                    RequestsLimitter.resetPasswordLimiter,
                     resetPasswordValidationSchema(),
                     userValidationHandler,
                     verifyResetPassWordToken,

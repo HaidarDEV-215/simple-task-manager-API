@@ -35,7 +35,7 @@ const updateUserById = async (userId, data) => {
             saveData.filed = data[filed]
         }
     }
-    const updatedUser = await usersRepository.updateUserById(userId, data);
+    const updatedUser = await usersRepository.updateUserById(userId, saveData);
     if (!updatedUser) {
         throw new AppError("no users found", 404, statusText.FAIL);
     }

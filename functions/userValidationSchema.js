@@ -23,4 +23,22 @@ const UserValidationSchema = ()=>{
     ])
 }
 
-module.exports = UserValidationSchema;
+const updateUserValidationSchema =()=>{
+    return ([
+        body("firstName")
+            .isLength({min:3,max:20})
+            .withMessage("first name length must be bitween 3 and 20 character and cannot be empty")
+        ,body("lattName")
+            .isLength({min:3,max:20})
+            .withMessage("last name length must be bitween 3 and 20 character and cannot be empty")
+        ,body("email")
+            .isEmail()
+            .withMessage("email address is not valid")
+        ,body("password")
+            .withMessage("password cannot be empty")
+            .isLength({min:8,max:16})
+            .withMessage("password length must be between 8 and 16 character")
+    ])
+}
+
+module.exports = {UserValidationSchema,updateUserValidationSchema};

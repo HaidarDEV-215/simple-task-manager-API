@@ -9,15 +9,16 @@ const app = express();
 const logers = require('./middlewares/loggers.js');
 const errors = require('./middlewares/errors.js');
 const connectToMongoDB = require('./config/mongoDB.js');
+const {requestLimiter} = require('./middlewares/rate-limit.js');
 
 // const tasksRouter = require('./routes/tasksRouter.js');
 // const usersRouter = require('./routes/usersRouter.js');
 // const authRouter = require('./routes/authRouter.js');
 
-app.use(cors())
-app.use(express.json())
-
-app.use(logers.urlLogger)
+app.use(cors());
+app.use(requestLimiter);
+app.use(express.json());
+app.use(logers.urlLogger);
 /*
 app.use("/api/users",usersRouter);
 app.use("/api/tasks",tasksRouter);
@@ -61,9 +62,9 @@ const port = process.env.PORT;
 
 connectToMongoDB();
 
-app.all(/.*/,errors.notFoundError)
+app.all(/.*/,errors.notFoundError);
 
-app.use(errors.ErrorHandler)
+app.use(errors.ErrorHandler);
 
 
 app.listen(port,()=>{

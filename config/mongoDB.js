@@ -1,4 +1,4 @@
-const { default: mongoose } = require('mongoose');
+const { mongoose } = require('mongoose');
 
 async function connectToDb() {
     try {
@@ -6,6 +6,7 @@ async function connectToDb() {
         console.log(`MongoDB dataBase is connecting...`);
     } catch (error) {
         console.log('error connection accuired\n', error.message);
+        process.exit(1);
     }
 }
 

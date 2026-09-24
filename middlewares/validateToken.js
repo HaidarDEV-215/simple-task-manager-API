@@ -20,6 +20,26 @@ const verifyToken = (req,res,next)=>{
     }
 }
 
+const verifyResetPassWordToken = (req,res,next)=>{
+    const authHeader = req.headers['Authorization'] || req.headers['authorization'];
+    if(!authHeader){
+        const error = new AppError("Unauthorize! Token is required",401,statusText.FAIL);
+        return next(error);
+    }
+    const token = authHeader.split(" ")[1];
+    try{
+        const decodedToken = jwt.verify(token,process.env.SECRET_KEY);
+        if(decodedToken.purpose!=="reset-password"){
+            throw new AppError("invalid token", 403, statusText.FAIL);
+        }
+        req.currentUser = decodedToken; //request manipulation 
+        next();
+    }catch(err){
+        const error = new AppError("Unauthorize! invalid Token",401,statusText.FAIL);
+        return next(error);
+    }
+}
+
 const verifyUserHimSelf = (req,res,next)=>{
     try{
         if (!req.currentUser) {
@@ -37,4 +57,4 @@ const verifyUserHimSelf = (req,res,next)=>{
 }
 
 
-module.exports = {verifyToken,verifyUserHimSelf}
+module.exports = {verifyToken,verifyResetPassWordToken,verifyUserHimSelf}

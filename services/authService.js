@@ -68,9 +68,6 @@ const confirmOTPservice = async (email, code) => {
 }
 
 const resetPasswordService = async (newPassword, currentUser) => {
-    if(currentUser.purpose!=="reset-password"){
-        throw new AppError("invalid reset token", 403, statusText.FAIL);
-    }
     if (!newPassword) {
         throw new AppError("Password is required!", 400, statusText.FAIL);
     }

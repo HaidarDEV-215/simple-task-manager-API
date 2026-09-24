@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authControllers.js');
-const {verifyToken} = require('../middlewares/validateToken.js')
+const {verifyResetPassWordToken} = require('../middlewares/validateToken.js');
+const {authRequestsLimitter} = require('../middlewares/rate-limit.js');
 
-router.route('/regester').post(authController.regester);
+router.route('/regester').post(authRequestsLimitter,authController.regester);
 
-router.route('/login').post(authController.login);
+router.route('/login').post(authRequestsLimitter,authController.login);
 
-router.route('/forgetPassword').post(authController.forgetPassword);
+router.route('/forgetPassword').post(authRequestsLimitter,authController.forgetPassword);
 
-router.route('/confirm').post(authController.confirmOTP);
+router.route('/confirm').post(authRequestsLimitter,authController.confirmOTP);
 
-router.route('/resetPassword').post(verifyToken,authController.resetPassword);
+router.route('/resetPassword').post(authRequestsLimitter,verifyResetPassWordToken,authController.resetPassword);
 
 module.exports = router;
